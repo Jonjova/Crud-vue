@@ -44,8 +44,27 @@
         <tbody>
           <tr v-for="(item, index) in datosPaginados" :key="index">
             <td>{{ item.id }}</td>
-            <td>{{ item.body }}</td>
-            <td>{{ item.title }}</td>
+            <td>
+              <input
+                v-if="item.edit"
+                type="text"
+                v-model="item.body"
+                v-on:keyup.enter="item.edit = !item.edit"
+              />
+              <span v-else>{{ item.body }} </span>
+            </td>
+            <!-- <td>{{ item.body }}</td> -->
+            <td>
+              <input
+                v-if="item.edit"
+                type="text"
+                v-model="item.title"
+                v-on:keyup.enter="item.edit = !item.edit"
+              />
+              <span v-else>{{ item.title }} </span>
+            </td>
+            <!-- <td>{{ item.title }}</td> -->
+            
             <td>
               <button @click="item.edit = !item.edit" class="btn btn-info">
                 Editar
@@ -151,7 +170,7 @@ export default {
       return noPagina == this.paginaActual ? "active" : "";
     },
     /*Aquí finaliza la paginación*/
-    /*Agregar*/
+    /*Agregar y editar*/
     addItem() {
       var datos = {
         body: this.usuarios.body,
@@ -168,15 +187,20 @@ export default {
             body: this.usuarios.body,
             title: this.usuarios.title,
             edit: false
-          }); 
+          });
           //  this.usuarios = [];
         })
         .catch(e => {
           console.log("error" + e);
         });
-  
+
       // $("#form-name").focus();
-    }
+    },
+    //Eliminar
+    removeItem(index) {
+      this.datosPaginados.splice(index, 1);
+    },
+    
   },
   async mounted() {
     // this.listarTareas();
