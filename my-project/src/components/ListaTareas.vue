@@ -113,7 +113,7 @@ export default {
   name: "ListaTareas",
   data() {
     return {
-      usuarios: { body: "", title: "", edit: false },
+      usuarios: { id:"",body: "", title: "", edit: false },
       // Inicializamos usuarios[] para pintar los datos en nuestra tabla
       usuarios: [],
       // Variables que se utilizan para la paginación
@@ -198,7 +198,13 @@ export default {
     },
     //Eliminar
     removeItem(index) {
-      this.datosPaginados.splice(index, 1);
+     
+      axios.delete(`https://jsonplaceholder.typicode.com/posts/${index}`).
+      then(res=>{
+        this.datosPaginados.splice(index, 1)
+         console.log(res);
+      })
+      
     },
     
   },
